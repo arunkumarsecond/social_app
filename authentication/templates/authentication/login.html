@@ -38,9 +38,9 @@
 <form method="POST">{% csrf_token %}
 <div class="main-area">
 <div class="register-form">
-{{ form.non_field_errors }}
       <h2 class="mainheading">bandhu</h2>
       <h4 class="mainheading">Login</h4>
+      {{ form.non_field_errors }}
       <label for="id_username" class="login-labels m-2">Email Address*</label>
       {{ form.username.errors }}
       {{ form.username|addclass:'form-control'|addplaceholder:'Email Address'}}

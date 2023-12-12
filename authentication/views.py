@@ -91,6 +91,6 @@ def activate(request, uidb64, token):
 class LoginUserView(LoginView):
     template_name = 'authentication/login.html'
 
-class LogoutUserView(LogoutView):
-    def post(self, request: WSGIRequest, *args: Any, **kwargs: Any) -> TemplateResponse:
-        return super().post(request, *args, **kwargs)
+# As we are not modifying the default view, so I have directly used this view in the urls.py
+# class LogoutUserView(LogoutView):
+#     pass
