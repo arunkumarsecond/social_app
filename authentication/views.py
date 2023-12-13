@@ -92,5 +92,7 @@ class LoginUserView(LoginView):
     template_name = 'authentication/login.html'
 
 # As we are not modifying the default view, so I have directly used this view in the urls.py
-# class LogoutUserView(LogoutView):
-#     pass
+class LogoutUserView(LogoutView):
+    def post(self, request: WSGIRequest, *args: Any, **kwargs: Any) -> TemplateResponse:
+        print(request.user)
+        return super().post(request, *args, **kwargs)
