@@ -12,8 +12,8 @@ class Tag(TimeStampModel):
         return "#" + self.title.strip()
     
     def clean(self) -> None:
-        super().clean()
         self.title = self.title.lower()
+        super().clean()
 
     def save(self, *args, **kwargs):
         self.full_clean()

@@ -16,6 +16,7 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.views import LoginView, LogoutView
+from users.models import Profile
 User = get_user_model()
 
 # Create your views here.
@@ -61,13 +62,13 @@ class RegisterView(View, TemplateResponseMixin):
                 recipient_list=[to_email],
                 fail_silently=False
             )
-            messages.success(request, "Link has been sent to your email id.")
+            messages.success(request, "Link has been sent to your email id. Please verify your account!")
         except Exception:
             form.add_error('', 'Error Occurred while Sending EMail, Try Again')
             messages.error(request, "Error occurred while sending mail")
             return self.render_to_response({'form': form})
 
-        return HttpResponse("We have sent the verification email, please check your email inbox")
+        return redirect('signup')
 
         
 def activate(request, uidb64, token):
@@ -80,19 +81,19 @@ def activate(request, uidb64, token):
     if user is not None and account_activation_token.check_token(user, token) is True:
         user.is_active = True
         user.save()
-        messages.success(request, 'Your are authenticated!')
-        return HttpResponse('You are in!')
+        profile = Profile.objects.create(user=user)
+        profile.save()
+        messages.success(request, 'Your account has been verified. Please login to continue!')
         return redirect(reverse('login'))
     
     else:
-        return HttpResponse("Your account is already verified try to login or activation link is invalid!")
+        messages.error(request, "We couldn't find you! Please sign-up to our platform then login.")
+        return redirect(reverse('login'))
 
 
 class LoginUserView(LoginView):
     template_name = 'authentication/login.html'
 
-# As we are not modifying the default view, so I have directly used this view in the urls.py
+# The get method has been depreciated.
 class LogoutUserView(LogoutView):
-    def post(self, request: WSGIRequest, *args: Any, **kwargs: Any) -> TemplateResponse:
-        print(request.user)
-        return super().post(request, *args, **kwargs)
+    pass
