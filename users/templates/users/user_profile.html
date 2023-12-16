@@ -27,19 +27,18 @@
             <div class="col-md-8">
                 <div class="card-body">
                     <div>
-                        <h5 class="card-title mr-2">{{profile.user.username}}</h5>
-
-                        <div class="d-flex flex-row align-items-center m-2">
+                        <div class="d-flex flex-row align-items-center my-2">
+                            <h5 class="card-title mr-2">{{profile.user.username}}</h5>
                             {% if user.username != profile.user.username and is_following == False %}
                             <form method="POST" action="{% url 'follow' profile.user.username %}">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-primary">Follow</button>
+                                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-user-plus"></i></button>
                             </form>
 
                             {% elif user.username != profile.user.username and is_following == True %}
                             <form method="POST" action="{% url 'unfollow' profile.user.username %}">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-light">Unfollow</button>
+                                <button type="submit" class="btn btn-light"><i class="fa-solid fa-user-minus"></i></button>
                             </form>
 
                             {% elif user.username == profile.user.username %}

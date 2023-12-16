@@ -18,7 +18,9 @@ class GetProfileView(DetailView, LoginRequiredMixin):
     pk_url_kwarg = 'username'
 
     def get_object(self, queryset = None):
+        # Filter User Profile
         profile = self.queryset.filter(user__username=self.kwargs.get(self.pk_url_kwarg), user__is_active=True).first()
+        
         if profile is None:
             raise Http404("Requested User Don't Exits")
         return profile
@@ -28,15 +30,21 @@ class GetProfileView(DetailView, LoginRequiredMixin):
         response = super().get(request, *args, **kwargs)
 
         if response.status_code == 200:
+
+            # fetching details
             follower_count = Follow.objects.filter(followee__username = self.kwargs['username']).count()
             followee_count = Follow.objects.filter(follower__username = self.kwargs['username']).count()
             post_count = Post.objects.filter(user__username=self.kwargs['username']).count()
 
+            # adding details to context_data
             response.context_data['follower_count'] = follower_count
             response.context_data['followee_count'] = followee_count
             response.context_data['post_count'] = post_count
 
+            # Whether the requested user follow the user
             user_followee = Follow.objects.filter(follower = request.user, followee__username=kwargs['username'])
+
+
             if request.user.username != kwargs['username'] and user_followee.exists() is True:
                 response.context_data['is_following'] = True
             else:

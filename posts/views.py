@@ -1,5 +1,7 @@
 from django.forms.models import BaseModelForm
 from django.http import HttpResponse
+from django.shortcuts import redirect
+from django.urls import reverse
 from django.views.generic import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import UploadPostForm
@@ -27,3 +29,6 @@ class UploadPostView(CreateView, LoginRequiredMixin):
                 tag_instance = Tag.objects.get(title=tag.lower())
             instance.tags.add(tag_instance)
         return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        return redirect(reverse('home'))

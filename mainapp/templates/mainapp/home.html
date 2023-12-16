@@ -18,9 +18,9 @@
     width: 100%;
     max-width: 500px;
     margin: auto;
-    margin-top: 40px;
+    margin-top: 20px;
     padding: 20px;
-    background-color: #fff;
+    background-color: #f5f5f5;
     border-radius: 5px;
 }
 .bootstrap-tagsinput .tag{
@@ -41,13 +41,13 @@
     <h1 class="text-center">Your Feed</h1>
     <div class="userfeed">
         {% for post in posts %}
-        <div id='postcard' class="card mb-4" style="width: 100%">
-            <div class="d-flex flex-row align-items-center px-2 py-1">
+        <div id='postcard' class="card mb-4 border-success" style="width: 100%; border-radius: 15px !important;">
+            <div class="d-flex flex-row align-items-center p-2 m-2">
                 <img class='img-fluid mr-2' src="{{post.user.profile.profile_img.url}}" alt="mdo" width="50" height="50"
                                     class="rounded-circle mr-1">
                 <b>{{post.user.username}}</b>
             </div>
-            <img class='img-thumbnail' src="{{post.image.url}}" class="card-img-top" max-width="450" max-height="450"/>
+            <img class='img-thumbnail mx-2' src="{{post.image.url}}" class="card-img-top" max-width="450" max-height="450"/>
             <div class="card-body">
                 <h6 class="card-title">{{post.like_count}} likes</h6>
                 <p class="card-text">
@@ -56,6 +56,7 @@
             </div>
         </div>
         {% endfor %}
+        <h1 class="text-center">That was All <i class="fa-solid fa-hands-clapping"></i></h1>
     </div>
   
   <!-- Modal -->
@@ -69,7 +70,20 @@
         <form method="POST" action="{% url 'upload-post' %}" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="modal-body">
-                {{form.as_p}}
+                {{ form.non_field_errors }}
+                <label class="mt-2" for="id_image">Enter an image:</label>
+                {{form.image.errors}}
+                {{form.image|addclass:'form-control-file'}}
+                <br>
+
+                <label class="mt-2 mb-2" for="id_caption">Caption:</label>
+                {{form.caption.errors}}
+                {{form.caption|addclass:'form-control'|addplaceholder:'Caption...'}}
+                <br>
+
+                <label class="mt-2 mr-2" for="id_tags">Tags:</label>
+                {{form.tags.errors}}
+                {{form.tags|addplaceholder:'tags...'}}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
