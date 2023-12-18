@@ -50,6 +50,10 @@ class Comment(TimeStampModel):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
     comment = models.ForeignKey('self', on_delete=models.CASCADE, related_name='replies')
+    details = models.TextField()
+
+    def __str__(self) -> str:
+        return self.details[:10] + ' on post ' + str(self.post_id)
 
 class PostTag(TimeStampModel):
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
@@ -62,3 +66,6 @@ class PostTag(TimeStampModel):
                 name='unique_post_tag',
             )
         ]
+
+    def __str__(self) -> str:
+        return str(self.tag_id) + ' taged on ' + str(self.post_id)
