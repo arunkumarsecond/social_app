@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from common.models import TimeStampModel
+import uuid
 
 User = get_user_model()
 
@@ -20,6 +21,7 @@ class Tag(TimeStampModel):
         return super().save(*args, **kwargs)
 
 class Post(TimeStampModel):
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True)
     user = models.ForeignKey(User, related_name='posts', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='posts/post_images')
     caption = models.TextField()
