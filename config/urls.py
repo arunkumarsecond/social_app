@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from users.api.views import SetCSRFCookie
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,7 +26,11 @@ urlpatterns = [
     path('', include('users.urls')),
     path('auth/', include('authentication.urls')),
     path('posts/', include('posts.urls')),
+    path('api/auth/', include('rest_framework.urls')),
+    path('api/', include('users.api.urls')),
+    path('setcsrf/', SetCSRFCookie.as_view(), name='set-csrf')
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
