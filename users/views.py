@@ -11,7 +11,7 @@ from django.urls import reverse_lazy
 User = get_user_model()
 
 # Create your views here.
-class GetProfileView(DetailView, LoginRequiredMixin):
+class GetProfileView(LoginRequiredMixin, DetailView):
     # Endpoint: profile/<slug:username>/
     template_name = 'users/user_profile.html'
     queryset = Profile.objects.all()
