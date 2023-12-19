@@ -41,13 +41,15 @@
     <h1 class="text-center">Your Feed</h1>
     <div class="userfeed">
         {% for post in posts %}
-        <div id='postcard' class="card mb-4 border-success" style="width: 100%; border-radius: 15px !important;">
+        <div id='postcard' class="card mb-4 border-success p-2" style="width: 100%; border-radius: 15px !important;">
             <div class="d-flex flex-row align-items-center p-2 m-2">
                 <img class='img-fluid mr-2' src="{{post.user.profile.profile_img.url}}" alt="mdo" width="50" height="50"
                                     class="rounded-circle mr-1">
                 <b>{{post.user.username}}</b>
             </div>
-            <img class='img-thumbnail mx-2' src="{{post.image.url}}" class="card-img-top" max-width="450" max-height="450"/>
+            <a href="{% url 'post-detail' post.uuid %}" class="m-0">
+                <img class='img-thumbnail' src="{{post.image.url}}" class="card-img-top" max-width="430" max-height="430"/>
+            </a>
             <div class="card-body">
                 <h6 class="card-title">{{post.like_count}} likes</h6>
                 <p class="card-text">
