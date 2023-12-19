@@ -1,3 +1,5 @@
+{% load static %}
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -19,22 +21,21 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand mr-5" href="{% url 'home' %}">Bandhu</a> 
+    <nav class="navbar navbar-expand-lg navbar-dark bg-light justify-content-between">
+        <div class="container-fluid ml-3">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="{% static 'images/bandhu_logo-main.png' %}" height="30" class="d-inline-block align-top" alt="">
+            </a>
 
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+            <button class="navbar-toggler bg-dark" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
-                    <li class="nav-item mr-5">
-                        <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
-                    </li>
-                    <li>
+                    <li class="nav-item, mr-5">
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#postmodel">
+                        <button type="button" class="btn-sm btn-outline-primary" data-toggle="modal" data-target="#postmodel" style="width: 80px !important;">
                             New <i class="fa-solid fa-plus"></i>
                         </button>
                     </li>
@@ -44,21 +45,24 @@
                         id="dropdownMenuButton1" data-toggle="dropdown" aria-expanded="false">
                         Account
                     </button>
-                <ul class="dropdown-menu dropdown-menu-left dropdown-menu-lg-right" aria-labelledby="dropdownMenuButton">
-                    <!-- <li><a class="dropdown-item" href="{% url 'signup' %}">Singup</a></li>
-                    <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li> -->
-                    <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
-                </ul>
+                    <ul class="dropdown-menu dropdown-menu-left dropdown-menu-lg-right" aria-labelledby="dropdownMenuButton">
+                        <!-- <li><a class="dropdown-item" href="{% url 'signup' %}">Singup</a></li> -->
+                        {% if user.is_authenticated %}
+                        <li><a class="dropdown-item" href="{% url 'profile' user.username %}">Profile</a></li>
+                        <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>
     {% if messages %}
      {% for message in messages %}
          <div class="text-center alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" style="margin-bottom:0px;">
-             {{ message|safe }}
-             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-  <span aria-hidden="true">&times;</span>
-</button>
+            {{ message|safe }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
          </div>
      {% endfor %}
  {% endif %}
@@ -67,7 +71,7 @@
     {% endblock %}
 
     <!-- Footer -->
-    <footer class="bg-body-tertiary text-white text-lg-start">
+    <footer class="bg-body-tertiary text-white text-lg-start mt-3">
         <div class="text-center p-3 bg-dark">
         © 2023 Copyright:
         <a class="text-white" href="{% url 'home' %}" style=" text-decoration: none;">bandhu</a>
