@@ -47,9 +47,9 @@ class PostLike(TimeStampModel):
         return str(self.post_id) + " liked by " + str(self.user_id)
     
 class Comment(TimeStampModel):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments', null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
-    comment = models.ForeignKey('self', on_delete=models.CASCADE, related_name='replies')
+    comment = models.ForeignKey('self', on_delete=models.CASCADE, related_name='replies', null=True, blank=True)
     details = models.TextField()
 
     def __str__(self) -> str:
