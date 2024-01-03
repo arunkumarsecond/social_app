@@ -2,7 +2,7 @@ from django.http import Http404, HttpRequest, HttpResponse
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
-from django.views.generic import DetailView
+from django.views.generic import DetailView, UpdateView
 from .models import Profile, Follow
 from posts.models import Post
 from django.contrib.auth import get_user_model
