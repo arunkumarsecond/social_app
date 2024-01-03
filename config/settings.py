@@ -27,7 +27,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -82,7 +82,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    "default" : {}
+}
+
+if DEBUG:
+    DATABASES["default"] = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'bandhu_db',
         'USER': 'postgres',
@@ -90,7 +94,10 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '5432'
     }
-}
+else:
+    import dj_database_url
+    db_from_env = dj_database_url.config(conn_max_age=600)
+    DATABASES["default"].update(db_from_env)
 
 
 # Password validation
